@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: capstone-app
   namespace: raghad-capstone
+  labels:
+    app: capstone-app
 spec:
   selector:
     app: capstone-app
