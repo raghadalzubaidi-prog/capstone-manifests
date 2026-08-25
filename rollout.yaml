@@ -1,15 +1,25 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: capstone-app
-  namespace: raghad-capstone
-  labels:
-    app: capstone-app
+  namespace: reem-capstone
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: capstone-app
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: {}
+        - analysis:
+            templates:
+              - templateName: error-rate-check
+        - setWeight: 50
+        - pause:
+            duration: 30s
+        - setWeight: 100
   template:
     metadata:
       labels:
@@ -17,7 +27,7 @@ spec:
     spec:
       containers:
         - name: capstone-app
-          image: us-central1-docker.pkg.dev/internship-lab-505207/capstone-repo/capstone-app:v1
+          image: us-central1-docker.pkg.dev/internship-lab-505207/capstone-repo/capstone-app:f82b563945d6e835ce19be16caf75c8809809965
           ports:
             - containerPort: 8080
           resources:
@@ -32,10 +42,10 @@ spec:
               path: /health
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 10
+            periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /health
               port: 8080
             initialDelaySeconds: 10
-            periodSeconds: 20
+            periodSeconds: 10
