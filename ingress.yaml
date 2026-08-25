@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: capstone-ingress
-  namespace: reem-capstone
+  namespace: raghad-capstone
   annotations:
     kubernetes.io/ingress.class: gce
 spec:

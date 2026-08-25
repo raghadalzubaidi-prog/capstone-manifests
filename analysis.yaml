@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: error-rate-check
-  namespace: reem-capstone
+  namespace: raghad-capstone
 spec:
   metrics:
     - name: error-rate
